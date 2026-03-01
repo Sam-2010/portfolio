@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sameer Mangulkar — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #c8f04a;
+      --accent2: #4af0c8;
+      --text: #e8e8e8;
+      --muted: #888;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Sora', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 3rem 4rem;
+      max-width: 1100px; margin: 0 auto;
+      position: relative;
+    }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: var(--sans);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 1rem;
+      opacity: 0; animation: fadeUp 0.6s 0.35s forwards;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.6s 0.5s forwards;
+    }
+    .hero-links {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      opacity: 0; animation: fadeUp 0.6s 0.65s forwards;
+    }
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.4rem;
+      border: 1px solid;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: #0d0d0d; border-color: var(--accent); }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, black 30%, transparent 80%);
+      opacity: 0.4;
+    }
+
+    /* SECTIONS */
+    section { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-weight: 300; }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+    .info-list li {
+      display: flex; gap: 1rem; align-items: center;
+      font-family: var(--mono); font-size: 0.82rem;
+    }
+    .info-label { color: var(--accent); min-width: 60px; }
+    .info-list a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
+    .info-list a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-card h3 { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: var(--mono); font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .project-card:hover { border-color: var(--accent2); transform: translateY(-4px); }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .project-title { font-size: 1.05rem; font-weight: 600; }
+    .project-stack {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--accent2); white-space: nowrap;
+    }
+    .project-desc { color: var(--muted); font-size: 0.9rem; font-weight: 300; }
+    .project-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .project-bullets li {
+      font-size: 0.85rem; color: var(--muted); font-weight: 300;
+      padding-left: 1rem; position: relative;
+    }
+    .project-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+
+    /* EDUCATION */
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      display: flex; gap: 2rem; align-items: flex-start;
+    }
+    .edu-year { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); min-width: 80px; }
+    .edu-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .edu-info p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ACHIEVEMENTS */
+    .achievement {
+      border-left: 2px solid var(--accent);
+      padding: 1rem 1.5rem;
+      background: var(--surface);
+      font-size: 0.95rem; color: var(--muted);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section, #hero { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .edu-card { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">SM.dev</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-grid-bg"></div>
+    <p class="hero-tag">// software developer</p>
+    <h1 class="hero-name">Sameer<br/><span>Mangulkar</span></h1>
+    <p class="hero-subtitle">CS student at Savitribai Phule Pune University. Building things with Java, C, and a passion for problem-solving.</p>
+    <div class="hero-links">
+      <a href="https://github.com/Sam-2010" target="_blank" class="btn btn-primary">GitHub</a>
+      <a href="https://in.linkedin.com/in/sameer-mangulkar-1582aa370" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      <a href="https://leetcode.com/Sameer_2025/" target="_blank" class="btn btn-ghost">LeetCode</a>
+      <a href="mailto:mangulkarsameer8@gmail.com" class="btn btn-ghost">Email</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">01 / about</p>
+    <h2 class="section-title reveal">Who I Am</h2>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>I'm a Information Technology student at Savitribai Phule Pune University, expected to graduate in 2029. I enjoy building hands-on projects that solve real problems — from game clones to scientific simulators.</p>
+        <p>My primary language is Java, with experience in C, and I'm always looking to deepen my knowledge of algorithms and software design.</p>
+      </div>
+      <ul class="info-list">
+        <li><span class="info-label">📍</span> Pune, Maharashtra, India</li>
+        <li><span class="info-label">📞</span> 9420809484</li>
+        <li><span class="info-label">✉️</span> <a href="mailto:mangulkarsameer8@gmail.com">mangulkarsameer8@gmail.com</a></li>
+        <li><span class="info-label">GitHub</span> <a href="https://github.com/Sam-2010" target="_blank">Sam-2010</a></li>
+        <li><span class="info-label">LeetCode</span> <a href="https://leetcode.com/Sameer_2025/" target="_blank">Sameer_2025</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">02 / skills</p>
+    <h2 class="section-title reveal">Technical Skills</h2>
+    <div class="skills-grid reveal">
+      <div class="skill-card">
+        <h3>Languages</h3>
+        <div class="skill-tags">
+          <span class="tag">Java</span>
+          <span class="tag">C</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Tools</h3>
+        <div class="skill-tags">
+          <span class="tag">IntelliJ IDEA</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Concepts</h3>
+        <div class="skill-tags">
+          <span class="tag">OOP</span>
+          <span class="tag">Data Structures</span>
+          <span class="tag">File I/O</span>
+          <span class="tag">GUI Dev</span>
+          <span class="tag">Event-Driven</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">03 / projects</p>
+    <h2 class="section-title reveal">Technical Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <h3 class="project-title">2048 Game Clone</h3>
+          <span class="project-stack">C · File I/O</span>
+        </div>
+        <ul class="project-bullets">
+          <li>4×4 grid puzzle using 2D arrays with full movement & merge logic in all four directions.</li>
+          <li>File handling to save/load high scores across game sessions.</li>
+          <li>checkGameOver function detecting win (2048 tile) and loss (no moves) states.</li>
+          <li>Real-time keyboard input via conio.h for a responsive CLI experience.</li>
+        </ul>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <h3 class="project-title">Virtual Chemistry Lab Simulator</h3>
+          <span class="project-stack">Java · Swing · AWT</span>
+        </div>
+        <ul class="project-bullets">
+          <li>Multi-panel desktop app simulating an Acid-Base Titration with custom-rendered graphics.</li>
+          <li>Math logic for dynamic indicator color changes and volume calculations.</li>
+          <li>ActionListeners & anonymous functions for real-time burette interactions.</li>
+          <li>2D array validation to verify correct lab apparatus selection.</li>
+        </ul>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <h3 class="project-title">ATM Simulation System</h3>
+          <span class="project-stack">Java · Swing · DSA</span>
+        </div>
+        <ul class="project-bullets">
+          <li>HashMap-based credential store for O(1) user authentication.</li>
+          <li>Full banking logic: Credit, Debit, and Balance Inquiry with input validation.</li>
+          <li>2D-array data structure managing up to 1,000 concurrent user sessions.</li>
+          <li>Single-Frame Architecture for flicker-free panel navigation.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label">04 / education</p>
+    <h2 class="section-title reveal">Education</h2>
+    <div class="edu-card reveal">
+      <div class="edu-year">2025 – 2029</div>
+      <div class="edu-info">
+        <h3>Savitribai Phule Pune University</h3>
+        <p>B.E. Computer Science · Expected Graduation: June 2029 · Pune, Maharashtra</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section>
+    <p class="section-label">05 / achievements</p>
+    <h2 class="section-title reveal">Achievements</h2>
+    <div class="achievement reveal">
+      🏆 Won a competitive programming competition at the college level.<br>
+      🏆 Won a Inter college DSA programming competition.
+    </div>
+  </section>
+
+  <footer>
+    <p>Sameer Mangulkar · Built with HTML & CSS · 2025</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
